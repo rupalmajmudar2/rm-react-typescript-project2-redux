@@ -1,46 +1,44 @@
-# Getting Started with Create React App
+npx create-react-app rm-react-ts-proj-2-redux --template typescript
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+npm install --save-exact @types/react-redux@7.1.15 axios@0.21.1 react-redux@7.2.2 redux@4.0.5 redux-thunk@2.3.0
 
-## Available Scripts
+Search from: http://registry.npmjs.org/-/v1/search?text=react
 
-In the project directory, you can run:
+Note: NPM Packages will be called "Repositories" in this whole course, to avoid confusing with TS reserved word "package"
 
-### `npm start`
+(A) Redux Store aka Reducer - "The State"
+Standard Redux Store approach : has 1 slice / piece of state called Repos
+    - produced by a ReposReducer
+    - which will maintain 3 properties recvd by this reducer
+        data : list of repos we get back from npm -> list on screen
+        loading : bool -> spinner on screen
+        error ->  err on screen if fetch fails
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    reducer.ts : Reducer will receive args : a copy of the last state
+    And an action that we need to process.
+    And return a state with these 3 properties.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+(B) Action Creators 
+1 ActionCreator: SearchRepos(searchTerm)
+This action creator dispatch one of a variety of actions into the reducer
 
-### `npm test`
+(C) Actions we're going to send into the Reducer
+SearchRepos => we've made a request thats pending.
+SearchReposSuccess. Payload: e.g. ['react', 'react-dom'] - the results
+SearchReposError, payload: 'request failed'
+[Each Action has type and payload as properties]
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+(D) ActionTypes to identify each of those actions 
+'search_repos'
+'search_repos_success'
+'search_repos_error'
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+(E) Folder structure:
+(i) components
+    App.tsx
+    ReposList.tsx
+(ii) redux-stuff
+    reducers
+    middleware
+    action-creator
+-> Create a single index.ts which includes all of the redux-stuff, easy to import into the components!
